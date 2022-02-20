@@ -14,42 +14,48 @@ DOCKER_USER="jylhakos"
 
 DOCKER_TOKEN=""
 
-DOCKER_IMAGE="phonebook"
+DOCKER_IMAGE="jylhakos/phonebook"
 
 DIRECTORY="exercise"
 
-HAS_DOCKER_IMAGE=$( docker images -q $DOCKER_IMAGE )
+DOCKER_IMAGE_ID=$( docker images -q $DOCKER_IMAGE )
 
-echo "HAS_DOCKER_IMAGE" $HAS_DOCKER_IMAGE
+echo $DOCKER_IMAGE_ID
 
-if [[ -n "$HAS_DOCKER_IMAGE" ]] 
+if [ -n $DOCKER_IMAGE_ID ]
 then
-	echo "remove $DOCKER_IMAGE"
+	echo "REMOVE $DOCKER_IMAGE_ID"
 
-	docker rmi -f DOCKER_IMAGE
+	docker rmi -f $DOCKER_IMAGE_ID
 fi
 
-if [[ -n "$DIRECTORY" ]]
+if [ -d $DIRECTORY ]
 then
-	echo "remove $DIRECTORY"
+	echo REMOVE $DIRECTORY
 
 	rm -rf $DIRECTORY
 fi
 
+echo MAKEDIR $DIRECTORY
+
 mkdir $DIRECTORY
 
-cd $DIRECTORY"/"$REPOSITORY_DIRECTORY
+cd $DIRECTORY
 
 pwd
 
 git clone $GITHUB_REPOSITORY_URL
 
+cd $REPOSITORY_DIRECTORY
+
+pwd
+
 npm install
 
 ls -l
 
-docker build -t $DOCKER_USER"/"$DOCKER_IMAGE .
+docker build -t $DOCKER_IMAGE .
 
-docker login --username DOCKER_USER --password DOCKER_TOKEN
+docker login --username $DOCKER_USER --password $DOCKER_TOKEN
 
-docker push $DOCKER_USER"/"$DOCKER_IMAGE
+docker push $DOCKER_IMAGE

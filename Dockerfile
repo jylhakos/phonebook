@@ -17,6 +17,4 @@ RUN npm install
 
 COPY . ./
 
-RUN ls -l ./build && ls -l /usr/src/app/
-
 CMD ["npm", "start", "--port", "3001"]
